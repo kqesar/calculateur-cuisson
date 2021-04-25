@@ -42,7 +42,7 @@ export default class Home extends Vue {
     listTypeMesureDuration = ['minutes', 'heures']
     listTypeMesureWeight = ['kilos', 'grammes']
 
-    initializeForm () {
+    initializeForm (): void {
         let cuissons = {}
         if (!localStorage.getItem('cuissons')) {
             cuissons = {
@@ -76,7 +76,7 @@ export default class Home extends Vue {
     }
 
     @Watch('typeMesureWeight')
-    onTypeMesureWeight (value: string) {
+    onTypeMesureWeight (value: string): void {
         if (this.poidsCuisson) {
             if (value === 'kilos') {
                 this.poidsCuisson /= 1000
@@ -87,7 +87,7 @@ export default class Home extends Vue {
     }
 
     @Watch('typeMesureDuration')
-    onTypeMesureDuration (value: string) {
+    onTypeMesureDuration (value: string): void {
         if (value === 'minutes') {
             const durationSplitted = this.dureeCuisson.toString().split('h')
             this.dureeCuisson = parseInt(durationSplitted[0]) * 60 + parseInt(durationSplitted[1])
