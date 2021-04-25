@@ -14,4 +14,5 @@ RUN npm run build
 RUN rm -rf ./src
 RUN rm -rf ./build
 
+EXPOSE 3000
 CMD [ "node", "app.js" ]
