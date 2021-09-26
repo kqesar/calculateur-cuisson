@@ -16,7 +16,7 @@
                     <h4>Paramétrage type de viande</h4>
                     <v-row v-for="(cuisson, index) in listCuissons" :key="index">
                         <v-col>
-                            <v-text-field readonly v-model="cuisson.name" label="Type de cuisson"></v-text-field>
+                            <v-text-field v-model.trim="cuisson.name" label="Type de cuisson"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-text-field v-model.number="cuisson.weight" label="Poids(en kg)"></v-text-field>
@@ -26,6 +26,9 @@
                         </v-col>
                         <v-col>
                             <v-btn @click="updateCuisson()">Modifier cuisson</v-btn>
+                        </v-col>
+                        <v-col>
+                            <v-btn @click="deleteCuisson(index)">Supprimer</v-btn>
                         </v-col>
                     </v-row>
                     <v-row class="mt-3">
@@ -83,12 +86,12 @@ export default class Home extends Vue {
     get displayDureeCuisson(): string {
         const heure = Math.floor(this.dureeCuisson / 60)
         const minutes = Math.floor(this.dureeCuisson - (heure * 60))
-        return `${heure} h ${minutes} (${this.dureeCuisson} minutes)`
+        return `${heure} h ${minutes}(${this.dureeCuisson} minutes)`
     }
 
-    initializeForm (): void {
+    initializeForm(): void {
         let cuissons: Cuisson[]
-        if (!localStorage.getItem('cuissons')) {
+        if(!localStorage.getItem('cuissons')) {
             cuissons = [
                 {
                     // Duration in minutes
@@ -117,7 +120,7 @@ export default class Home extends Vue {
         })
     }
 
-    changePoidsCuisson (): void {
+    changePoidsCuisson(): void {
         const cuisson = this.listCuissons.find(cuisson => {
             return cuisson.name === this.typeCuisson
         })
@@ -126,11 +129,17 @@ export default class Home extends Vue {
         }
     }
 
-    updateCuisson (): void {
+    updateCuisson(): void {
         localStorage.setItem('cuissons', JSON.stringify(this.listCuissons))
     }
 
-    saveCuisson (): void {
+    deleteCuisson(index: number): void {
+        this.listCuissons.splice(index)
+        localStorage.setItem('cuissons', JSON.stringify(this.listCuissons))
+        this.initializeForm()
+    }
+
+    saveCuisson(): void {
         this.listTypeCuisson.push(this.newTypeCuisson.name)
         this.listCuissons.push(this.newTypeCuisson)
         localStorage.setItem('cuissons', JSON.stringify(this.listCuissons))
@@ -162,7 +171,7 @@ export default class Home extends Vue {
         this.initializeForm()
     }
 
-    created (): void {
+    created(): void {
         this.initializeForm()
     }
 }
