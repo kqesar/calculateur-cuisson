@@ -6,18 +6,23 @@
                     <h2 class="text-center">Calculateur cuisson</h2>
                 </v-col>
             </v-row>
+            <v-row>
+                <v-col>
+                    <v-btn @click="resetListCuisson()">Remise à zero liste cuisson</v-btn>
+                </v-col>
+            </v-row>
             <v-row class="mb-3">
                 <v-col>
                     <h4>Paramétrage type de viande</h4>
-                    <v-row v-for="(type, index) in listTypeCuisson" :key="index">
+                    <v-row v-for="(cuisson, index) in listCuissons" :key="index">
                         <v-col>
-                            <v-text-field readonly v-model="listTypeCuisson[index]" label="Type de cuisson"></v-text-field>
+                            <v-text-field readonly v-model="cuisson.name" label="Type de cuisson"></v-text-field>
                         </v-col>
                         <v-col>
-                            <v-text-field v-model="cuissons[type].weight" label="Poids"></v-text-field>
+                            <v-text-field v-model.number="cuisson.weight" label="Poids(en kg)"></v-text-field>
                         </v-col>
                         <v-col>
-                            <v-text-field v-model="cuissons[type].duration" label="Durée"></v-text-field>
+                            <v-text-field v-model.number="cuisson.duration" label="Durée(en minutes)"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-btn @click="updateCuisson()">Modifier cuisson</v-btn>
@@ -30,25 +35,18 @@
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-text-field v-model="newTypeCuissonName" label="Nom nouveau type de cuisson"></v-text-field>
+                            <v-text-field v-model="newTypeCuisson.name" label="Nom nouveau type de cuisson"></v-text-field>
                         </v-col>
                         <v-col>
-                            <v-text-field v-model="newTypeCuisson.weight" label="Poids nouvelle cuisson"></v-text-field>
+                            <v-text-field v-model="newTypeCuisson.weight" label="Poids de la nouvelle cuisson(en kg)"></v-text-field>
                         </v-col>
                         <v-col>
-                            <v-text-field v-model="newTypeCuisson.duration" label="Durée nouvelle cuisson"></v-text-field>
+                            <v-text-field v-model="newTypeCuisson.duration" label="Durée nouvelle cuisson(en minutes)"></v-text-field>
                         </v-col>
                         <v-col>
-                            <v-btn @click="saveCuisson()">Enregistrer nouvelle cuisson</v-btn>
+                            <v-btn @click="saveCuisson()">Enregistrer</v-btn>
                         </v-col>
                     </v-row>
-                </v-col>
-            </v-row>
-            <v-row class="mb-3">
-                <v-col>
-                    <h4>Choix type de mesure</h4>
-                    <v-select v-model="typeMesureDuration" label="Type durée" :items="listTypeMesureDuration"></v-select>
-                    <v-select v-model="typeMesureWeight" label="Type poids" :items="listTypeMesureWeight"></v-select>
                 </v-col>
             </v-row>
             <v-row class="mt-3">
@@ -56,7 +54,7 @@
                     <h4>Calcul de la cuisson</h4>
                     <v-select v-model="typeCuisson" label="Sélectionner type de viande" :items="listTypeCuisson"></v-select>
                     <v-text-field v-if="typeCuisson" v-model="poidsCuisson" label="Poids de la viande" @change="changePoidsCuisson"></v-text-field>
-                    <v-text-field readonly v-if="typeCuisson" v-model="dureeCuisson" label="Durée de cuisson"></v-text-field>
+                    <span v-if="typeCuisson && poidsCuisson">{{displayDureeCuisson}}</span>
                 </v-col>
             </v-row>
         </v-form>
@@ -64,93 +62,107 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import { Cuisson, Cuissons } from '@/interfaces'
+import { Component, Vue } from 'vue-property-decorator'
+import { Cuisson } from '@/interfaces'
 
 @Component({})
 export default class Home extends Vue {
-    newTypeCuisson: Cuisson = {}
+    newTypeCuisson: Cuisson = {
+        duration: 0,
+        weight: 0,
+        name: ''
+    }
+
     newTypeCuissonName = ''
     typeCuisson = ''
     poidsCuisson = 0
-    dureeCuisson: any = 0
-    typeMesureDuration = 'minutes'
-    typeMesureWeight = 'kilos'
+    dureeCuisson = 0
     listTypeCuisson: string[] = []
-    cuissons: Cuissons = {}
+    listCuissons: Cuisson[] = []
 
-    listTypeMesureDuration = ['minutes', 'heures']
-    listTypeMesureWeight = ['kilos', 'grammes']
+    get displayDureeCuisson(): string {
+        const heure = Math.floor(this.dureeCuisson / 60)
+        const minutes = Math.floor(this.dureeCuisson - (heure * 60))
+        return `${heure} h ${minutes} (${this.dureeCuisson} minutes)`
+    }
 
     initializeForm (): void {
-        let cuissons = {}
+        let cuissons: Cuisson[]
         if (!localStorage.getItem('cuissons')) {
-            cuissons = {
-                poulet: {
+            cuissons = [
+                {
                     // Duration in minutes
                     duration: 50,
                     // Weight in kilo
-                    weight: 1
+                    weight: 1,
+                    name: 'Poulet'
                 },
-                porc: {
+                {
                     // Duration in minutes
                     duration: 60,
                     // Weight in kilo
-                    weight: 1
+                    weight: 1,
+                    name: 'Porc'
                 }
-            }
+            ]
             localStorage.setItem('cuissons', JSON.stringify(cuissons))
         } else {
             cuissons = JSON.parse(localStorage.getItem('cuissons') || '')
         }
 
-        this.cuissons = cuissons
+        this.listCuissons = cuissons
 
-        Object.keys(this.cuissons).forEach(typeCuisson => {
-            this.listTypeCuisson.push(typeCuisson)
+        this.listCuissons.forEach(cuisson => {
+            this.listTypeCuisson.push(cuisson.name)
         })
     }
 
     changePoidsCuisson (): void {
-        this.dureeCuisson = (this.poidsCuisson * this.cuissons[this.typeCuisson].duration) / this.cuissons[this.typeCuisson].weight
+        const cuisson = this.listCuissons.find(cuisson => {
+            return cuisson.name === this.typeCuisson
+        })
+        if(cuisson) {
+            this.dureeCuisson = (this.poidsCuisson * cuisson.duration) / cuisson.weight
+        }
     }
 
     updateCuisson (): void {
-        localStorage.setItem('cuissons', JSON.stringify(this.cuissons))
+        localStorage.setItem('cuissons', JSON.stringify(this.listCuissons))
     }
 
     saveCuisson (): void {
-        this.listTypeCuisson.push(this.newTypeCuissonName)
-        this.cuissons[this.newTypeCuissonName] = this.newTypeCuisson
-        localStorage.setItem('cuissons', JSON.stringify(this.cuissons))
-        this.newTypeCuissonName = ''
-        this.newTypeCuisson = {}
+        this.listTypeCuisson.push(this.newTypeCuisson.name)
+        this.listCuissons.push(this.newTypeCuisson)
+        localStorage.setItem('cuissons', JSON.stringify(this.listCuissons))
+        this.newTypeCuisson = {
+            duration: 0,
+            weight: 0,
+            name: ''
+        }
     }
 
-    @Watch('typeMesureWeight')
-    onTypeMesureWeight (value: string): void {
-        if (this.poidsCuisson) {
-            if (value === 'kilos') {
-                this.poidsCuisson /= 1000
-            } else {
-                this.poidsCuisson *= 1000
+    resetListCuisson(): void {
+        const cuissons : Cuisson[] = [
+            {
+                // Duration in minutes
+                duration: 50,
+                // Weight in kilo
+                weight: 1,
+                name: 'Poulet'
+            },
+            {
+                // Duration in minutes
+                duration: 60,
+                // Weight in kilo
+                weight: 1,
+                name: 'Porc'
             }
-        }
+        ]
+        localStorage.setItem('cuissons', JSON.stringify(cuissons))
+        this.initializeForm()
     }
 
-    @Watch('typeMesureDuration')
-    onTypeMesureDuration (value: string): void {
-        if (value === 'minutes') {
-            const durationSplitted = this.dureeCuisson.toString().split('h')
-            this.dureeCuisson = parseInt(durationSplitted[0]) * 60 + parseInt(durationSplitted[1])
-        } else {
-            const heure = Math.floor(this.dureeCuisson / 60)
-            const minutes = Math.floor(this.dureeCuisson - (heure * 60))
-            this.dureeCuisson = heure.toString() + 'h' + minutes.toString()
-        }
-    }
-
-    mounted (): void {
+    created (): void {
         this.initializeForm()
     }
 }
