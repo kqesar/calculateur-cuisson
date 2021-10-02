@@ -56,7 +56,7 @@
                 <v-col>
                     <h4>Calcul de la cuisson</h4>
                     <v-select v-model="typeCuisson" label="Sélectionner type de viande" :items="listTypeCuisson"></v-select>
-                    <v-text-field v-if="typeCuisson" v-model="poidsCuisson" label="Poids de la viande" @change="changePoidsCuisson"></v-text-field>
+                    <v-text-field v-if="typeCuisson" v-model="poidsCuisson" label="Poids de la viande"></v-text-field>
                     <span v-if="typeCuisson && poidsCuisson">{{displayDureeCuisson}}</span>
                 </v-col>
             </v-row>
@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Cuisson } from '@/interfaces'
 
 @Component({})
@@ -86,7 +86,7 @@ export default class Home extends Vue {
     get displayDureeCuisson(): string {
         const heure = Math.floor(this.dureeCuisson / 60)
         const minutes = Math.floor(this.dureeCuisson - (heure * 60))
-        return `${heure} h ${minutes}(${this.dureeCuisson} minutes)`
+        return `${heure} h ${minutes} (${Math.floor(this.dureeCuisson)} minutes)`
     }
 
     initializeForm(): void {
@@ -115,6 +115,7 @@ export default class Home extends Vue {
 
         this.listCuissons = cuissons
 
+        this.listTypeCuisson = []
         this.listCuissons.forEach(cuisson => {
             this.listTypeCuisson.push(cuisson.name)
         })
@@ -131,6 +132,7 @@ export default class Home extends Vue {
 
     updateCuisson(): void {
         localStorage.setItem('cuissons', JSON.stringify(this.listCuissons))
+        this.initializeForm()
     }
 
     deleteCuisson(index: number): void {
@@ -169,6 +171,21 @@ export default class Home extends Vue {
         ]
         localStorage.setItem('cuissons', JSON.stringify(cuissons))
         this.initializeForm()
+    }
+
+    @Watch('typeCuisson')
+    onChangeTypeCuisson(): void {
+        this.poidsCuisson = 0
+    }
+
+    @Watch('poidsCuisson')
+    onChangePoidsCuisson(): void {
+        const cuisson = this.listCuissons.find(cuisson => {
+            return cuisson.name === this.typeCuisson
+        })
+        if(cuisson) {
+            this.dureeCuisson = (this.poidsCuisson * cuisson.duration) / cuisson.weight
+        }
     }
 
     created(): void {
