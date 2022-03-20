@@ -1,4 +1,4 @@
-FROM node
+FROM node:16-buster
 
 RUN mkdir -p /usr/src/app
 
