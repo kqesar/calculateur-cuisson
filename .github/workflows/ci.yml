@@ -1,0 +1,17 @@
+name: remote ssh command
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: build the app
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Use node.js
+        uses: actions/setup-node@v1
+      - name: Install dependencies
+        run: npm install
+      - run: npm run build
