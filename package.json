@@ -44,7 +44,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^6.2.2",
-    "geckodriver": "^2.0.4",
+    "geckodriver": "^3.0.1",
     "lint-staged": "^9.5.0",
     "sass": "~1.30.0",
     "sass-loader": "^10.2.0",
