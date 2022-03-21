@@ -12,6 +12,6 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: Install dependencies
-        uses: actions/setup-node@v1
-        run: pnpm
+      - uses: actions/setup-node@v1
+      - run: pnpm install
       - run: pnpm run build
