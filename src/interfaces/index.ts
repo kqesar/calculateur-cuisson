@@ -1,4 +1,4 @@
-export interface Cuisson {
+export interface Cooking {
     duration: number,
     weight: number,
     name: string
