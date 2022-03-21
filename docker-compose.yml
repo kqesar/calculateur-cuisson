@@ -5,5 +5,5 @@ services:
     container_name: 'calculateur_cuisson'
     build: .
     ports:
-      - "${APP_PORT_DOCKER}:3000"
+      - "25000:3000"
 
