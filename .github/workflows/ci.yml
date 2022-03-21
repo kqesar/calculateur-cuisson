@@ -4,14 +4,14 @@ on:
     branches: [ master ]
 
 jobs:
-
   build:
     name: build the app
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: Use node.js
+        uses: actions/setup-node@v1
       - name: Install dependencies
-      - uses: actions/setup-node@v1
-      - run: pnpm install
+        run: pnpm install
       - run: pnpm run build
