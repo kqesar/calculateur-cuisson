@@ -13,5 +13,5 @@ jobs:
       - name: Use node.js
         uses: actions/setup-node@v1
       - name: Install dependencies
-        run: pnpm install
-      - run: pnpm run build
+        run: npm install
+      - run: npm run build
