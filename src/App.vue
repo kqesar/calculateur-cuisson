@@ -11,15 +11,18 @@
             </div>
         </v-app-bar>
         <v-main>
-            <router-view></router-view>
+            <home/>
         </v-main>
     </v-app>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import Home from "@/views/Home.vue";
 
-@Component({})
+@Component({
+    components: {Home}
+})
 export default class App extends Vue {
 }
 </script>

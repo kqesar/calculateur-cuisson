@@ -16,13 +16,11 @@
     "@fortawesome/vue-fontawesome": "^2.0.6",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
-    "register-service-worker": "^1.7.1",
+    "tslib": "^2.3.1",
     "vue": "^2.6.14",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",
-    "vue-router": "^3.2.0",
-    "vuetify": "^2.6.4",
-    "vuex": "^3.4.0"
+    "vuetify": "^2.6.4"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
@@ -30,9 +28,7 @@
     "@typescript-eslint/parser": "^5.16.0",
     "@vue/cli-plugin-babel": "~5.0.3",
     "@vue/cli-plugin-eslint": "~5.0.3",
-    "@vue/cli-plugin-router": "~5.0.3",
     "@vue/cli-plugin-typescript": "~5.0.3",
-    "@vue/cli-plugin-vuex": "~5.0.3",
     "@vue/cli-service": "~5.0.3",
     "@vue/eslint-config-typescript": "^10.0.0",
     "babel-core": "^7.0.0-bridge.0",
@@ -42,7 +38,6 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^8.5.0",
     "geckodriver": "^3.0.1",
-    "lint-staged": "^12.3.7",
     "sass": "~1.49.9",
     "sass-loader": "^12.6.0",
     "typescript": "^4.6.2",
@@ -50,14 +45,5 @@
     "vue-cli-plugin-vuetify": "~2.4.8",
     "vue-template-compiler": "^2.6.14",
     "vuetify-loader": "^1.7.3"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
   }
 }
