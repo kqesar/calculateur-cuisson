@@ -6,16 +6,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.0",
     "@fortawesome/free-solid-svg-icons": "^6.1.0",
     "@fortawesome/vue-fontawesome": "^2.0.6",
-    "core-js": "^3.6.5",
-    "express": "^4.17.1",
+    "core-js": "^3.21.1",
     "tslib": "^2.3.1",
     "vue": "^2.6.14",
     "vue-class-component": "^7.2.3",
@@ -23,7 +20,6 @@
     "vuetify": "^2.6.4"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
     "@vue/cli-plugin-babel": "~5.0.3",
@@ -33,11 +29,7 @@
     "@vue/eslint-config-typescript": "^10.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "eslint": "^8.11.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^8.5.0",
-    "geckodriver": "^3.0.1",
     "sass": "~1.49.9",
     "sass-loader": "^12.6.0",
     "typescript": "^4.6.2",
