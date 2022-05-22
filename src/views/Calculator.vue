@@ -72,7 +72,7 @@ import {Component, Vue, Watch} from 'vue-property-decorator'
 import {Cooking} from '@/interfaces'
 
 @Component({})
-export default class Home extends Vue {
+export default class Calculator extends Vue {
     newCookingType: Cooking = {
         duration: 0,
         weight: 0,
