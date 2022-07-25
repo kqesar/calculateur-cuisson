@@ -30,7 +30,7 @@
     "compression-webpack-plugin": "^10.0.0",
     "eslint": "^8.16.0",
     "eslint-plugin-vue": "^8.0.1",
-    "sass": "~1.52.1",
+    "sass": "~1.54.0",
     "sass-loader": "^13.0.0",
     "typescript": "^4.6.4",
     "vue-cli-plugin-vuetify": "~2.5.0",
