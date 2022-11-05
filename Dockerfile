@@ -4,9 +4,9 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 ADD . /usr/src/app
-RUN npm install
+RUN npm install --silent
 
-RUN npm run build
+RUN npm run --silent build
 
 # étape de production
 FROM nginx:alpine as production-stage

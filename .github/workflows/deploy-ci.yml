@@ -1,0 +1,77 @@
+name: Check lint, build, tests, deploy on registry and deploy image
+on:
+  push:
+    branches: [ master ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    name: build the app
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Use node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+      - name: Install dependencies
+        run: npm install
+      - run: npm run build
+
+  lint:
+    name: Check lint of app
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+      - name: lint code
+        run: npm run lint
+
+  push-to-registry:
+    name: Push to registry the docker image
+    needs: [ build, lint ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.APP_REPOSITORY_USER }}
+          password: ${{ secrets.APP_REPOSITORY_TOKEN }}
+
+      - name: Build docker images
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
+      - name: Push docker images to registry
+        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+  deploy-container:
+    name: Deploy and run container on server
+    runs-on: ubuntu-latest
+    needs: [ push-to-registry ]
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.APP_HOST }}
+          username: ${{ secrets.APP_USER }}
+          password: ${{ secrets.APP_PASSWORD }}
+          port: ${{ secrets.APP_PORT }}
+          script: |
+            export CR_PAT=${{ secrets.APP_REPOSITORY_TOKEN }}
+            echo $CR_PAT | sudo docker login ghcr.io -u ${{ secrets.APP_REPOSITORY_USER }} --password-stdin
+            sudo docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            sudo docker stop ${{ github.event.repository.name }}
+            sudo docker rm ${{ github.event.repository.name }}
+            sudo docker run --name ${{ github.event.repository.name }} -p ${{ secrets.APP_PORT_DOCKER }}:80 -d ${{ env.REGISTRY }}/${{ github.repository }}
