@@ -67,85 +67,31 @@
     </v-container>
 </template>
 
-<script lang="ts">
-import {Component, Vue, Watch} from 'vue-property-decorator'
-import {Cooking} from '@/interfaces'
+<script lang="ts" setup>
+import { Cooking } from '@/interfaces'
+import { computed, ref, watch } from 'vue'
 
-@Component({})
-export default class Calculator extends Vue {
-    newCookingType: Cooking = {
-        duration: 0,
-        weight: 0,
-        name: ''
-    }
-    cookingType = ''
-    cookingWeight = 0
-    cookingDuration = 0
-    cookingTypeList: string[] = []
-    cookingList: Cooking[] = []
+const newCookingType = ref<Cooking>({
+    duration: 0,
+    weight: 0,
+    name: ''
+})
+const cookingType = ref('')
+const cookingWeight = ref(0)
+const cookingDuration = ref(0)
+const cookingTypeList =   ref<string[]>([])
+const cookingList = ref<Cooking[]>([])
 
-    get displayCookingDuration(): string {
-        const heure = Math.floor(this.cookingDuration / 60)
-        const minutes = Math.floor(this.cookingDuration - (heure * 60))
-        return `${heure} h ${minutes} (${Math.floor(this.cookingDuration)} minutes)`
-    }
+const displayCookingDuration = computed<string>(() =>{
+    const heure = Math.floor(cookingDuration.value / 60)
+    const minutes = Math.floor(cookingDuration.value - (heure * 60))
+    return `${heure} h ${minutes} (${Math.floor(cookingDuration.value)} minutes)`
+})
 
-    initializeForm(): void {
-        let cuissons: Cooking[]
-        if (!localStorage.getItem('cuissons')) {
-            cuissons = [
-                {
-                    // Duration in minutes
-                    duration: 50,
-                    // Weight in kilo
-                    weight: 1,
-                    name: 'Poulet'
-                },
-                {
-                    // Duration in minutes
-                    duration: 60,
-                    // Weight in kilo
-                    weight: 1,
-                    name: 'Porc'
-                }
-            ]
-            localStorage.setItem('cuissons', JSON.stringify(cuissons))
-        } else {
-            cuissons = JSON.parse(localStorage.getItem('cuissons') || '')
-        }
-
-        this.cookingList = cuissons
-
-        this.cookingTypeList = []
-        this.cookingList.forEach(cuisson => {
-            this.cookingTypeList.push(cuisson.name)
-        })
-    }
-
-    updateCooking(): void {
-        localStorage.setItem('cuissons', JSON.stringify(this.cookingList))
-        this.initializeForm()
-    }
-
-    deleteCooking(index: number): void {
-        this.cookingList.splice(index)
-        localStorage.setItem('cuissons', JSON.stringify(this.cookingList))
-        this.initializeForm()
-    }
-
-    saveCooking(): void {
-        this.cookingTypeList.push(this.newCookingType.name)
-        this.cookingList.push(this.newCookingType)
-        localStorage.setItem('cuissons', JSON.stringify(this.cookingList))
-        this.newCookingType = {
-            duration: 0,
-            weight: 0,
-            name: ''
-        }
-    }
-
-    resetCookingList(): void {
-        const cuissons: Cooking[] = [
+const initializeForm = () => {
+    let cuissons: Cooking[]
+    if (!localStorage.getItem('cuissons')) {
+        cuissons = [
             {
                 // Duration in minutes
                 duration: 50,
@@ -162,26 +108,74 @@ export default class Calculator extends Vue {
             }
         ]
         localStorage.setItem('cuissons', JSON.stringify(cuissons))
-        this.initializeForm()
+    } else {
+        cuissons = JSON.parse(localStorage.getItem('cuissons') || '')
     }
 
-    @Watch('cookingType')
-    onChangeTypeCuisson(): void {
-        this.cookingWeight = 0
-    }
+    cookingList.value = cuissons
 
-    @Watch('cookingWeight')
-    onChangePoidsCuisson(): void {
-        const cuisson = this.cookingList.find(cuisson => {
-            return cuisson.name === this.cookingType
-        })
-        if (cuisson) {
-            this.cookingDuration = (this.cookingWeight * cuisson.duration) / cuisson.weight
-        }
-    }
+    cookingTypeList.value = []
+    cookingList.value.forEach(cuisson => {
+        cookingTypeList.value.push(cuisson.name)
+    })
+}
 
-    created(): void {
-        this.initializeForm()
+const updateCooking = () => {
+    localStorage.setItem('cuissons', JSON.stringify(cookingList.value))
+    initializeForm()
+}
+
+const deleteCooking = (index: number) => {
+    cookingList.value.splice(index)
+    localStorage.setItem('cuissons', JSON.stringify(cookingList.value))
+    initializeForm()
+}
+
+const saveCooking = () => {
+    cookingTypeList.value.push(newCookingType.value.name)
+    cookingList.value.push(newCookingType.value)
+    localStorage.setItem('cuissons', JSON.stringify(cookingList.value))
+    newCookingType.value = {
+        duration: 0,
+        weight: 0,
+        name: ''
     }
 }
+
+const resetCookingList = () => {
+    const cuissons: Cooking[] = [
+        {
+            // Duration in minutes
+            duration: 50,
+            // Weight in kilo
+            weight: 1,
+            name: 'Poulet'
+        },
+        {
+            // Duration in minutes
+            duration: 60,
+            // Weight in kilo
+            weight: 1,
+            name: 'Porc'
+        }
+    ]
+    localStorage.setItem('cuissons', JSON.stringify(cuissons))
+    initializeForm()
+}
+
+watch(cookingType, () =>{
+    cookingWeight.value = 0
+})
+
+watch(cookingWeight, () => {
+    const cuisson = cookingList.value.find(cuisson => {
+        return cuisson.name === cookingType.value
+    })
+    if (cuisson) {
+        const poidsCuisson = parseFloat(cookingWeight.value.toString().replace(",","."))
+        cookingDuration.value = (poidsCuisson * cuisson.duration) / cuisson.weight
+    }
+})
+
+initializeForm()
 </script>
