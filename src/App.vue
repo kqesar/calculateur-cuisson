@@ -10,18 +10,11 @@
             </div>
         </v-app-bar>
         <v-main>
-            <calculator/>
+            <calculator-view/>
         </v-main>
     </v-app>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import Calculator from "@/views/Calculator.vue";
-
-@Component({
-    components: {Calculator}
-})
-export default class App extends Vue {
-}
+<script lang="ts" setup>
+import CalculatorView from '@/views/CalculatorView.vue'
 </script>
