@@ -16,5 +16,5 @@
 </template>
 
 <script lang="ts" setup>
-import CalculatorView from '@/views/CalculatorView.vue'
+import CalculatorView from './views/CalculatorView.vue'
 </script>
