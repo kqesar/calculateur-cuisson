@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.47.1",
-    "@typescript-eslint/parser": "^5.47.1",
+    "@typescript-eslint/parser": "^5.48.0",
     "vite-plugin-vuetify": "^1.0.1",
     "@vue/eslint-config-typescript": "^11.0.2",
     "eslint": "^8.30.0",
