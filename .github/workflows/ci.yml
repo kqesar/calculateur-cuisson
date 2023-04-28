@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: '18.x'
       - name: Install dependencies
-        run: npm install
-      - run: npm run build
+        run: npx pnpm@8 install
+      - run: npx pnpm@8 build
 
   lint:
     name: Check lint of app
@@ -33,6 +33,6 @@ jobs:
         with:
           node-version: '18.x'
       - name: Install dependencies
-        run: npm install
+        run: npx pnpm@8 install
       - name: lint code
-        run: npm run lint
+        run: npx pnpm@8 lint

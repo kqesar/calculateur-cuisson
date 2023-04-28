@@ -16,13 +16,16 @@
                     <h4>Paramétrage type de viande</h4>
                     <v-row v-for="(cuisson, index) in cookingList" :key="index">
                         <v-col>
-                            <v-text-field variant="underlined" v-model.trim="cuisson.name" label="Type de cuisson"></v-text-field>
+                            <v-text-field variant="underlined" v-model.trim="cuisson.name"
+                                label="Type de cuisson"></v-text-field>
                         </v-col>
                         <v-col>
-                            <v-text-field variant="underlined" v-model.number="cuisson.weight" label="Poids(en kg)"></v-text-field>
+                            <v-text-field variant="underlined" v-model.number="cuisson.weight"
+                                label="Poids(en kg)"></v-text-field>
                         </v-col>
                         <v-col>
-                            <v-text-field variant="underlined" v-model.number="cuisson.duration" label="Durée(en minutes)"></v-text-field>
+                            <v-text-field variant="underlined" v-model.number="cuisson.duration"
+                                label="Durée(en minutes)"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-btn @click="updateCooking">Modifier cuisson</v-btn>
@@ -39,15 +42,15 @@
                     <v-row>
                         <v-col>
                             <v-text-field variant="outlined" v-model="newCookingType.name"
-                                          label="Nom nouveau type de cuisson"></v-text-field>
+                                label="Nom nouveau type de cuisson"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-text-field variant="outlined" v-model="newCookingType.weight"
-                                          label="Poids de la nouvelle cuisson(en kg)"></v-text-field>
+                                label="Poids de la nouvelle cuisson(en kg)"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-text-field variant="outlined" v-model="newCookingType.duration"
-                                          label="Durée nouvelle cuisson(en minutes)"></v-text-field>
+                                label="Durée nouvelle cuisson(en minutes)"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-btn @click="saveCooking">Enregistrer</v-btn>
@@ -58,8 +61,10 @@
             <v-row class="mt-3">
                 <v-col>
                     <h4>Calcul de la cuisson</h4>
-                    <v-select variant="underlined" v-model="cookingType" :items="cookingTypeList" label="Sélectionner type de viande"></v-select>
-                    <v-text-field variant="underlined" v-if="cookingType" v-model="cookingWeight" label="Poids de la viande"></v-text-field>
+                    <v-select variant="underlined" v-model="cookingType" :items="cookingTypeList"
+                        label="Sélectionner type de viande"></v-select>
+                    <v-text-field variant="underlined" v-if="cookingType" v-model="cookingWeight"
+                        label="Poids de la viande"></v-text-field>
                     <span v-if="cookingType && cookingWeight">{{ displayCookingDuration }}</span>
                 </v-col>
             </v-row>
@@ -68,7 +73,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Cooking } from '@/interfaces'
+import { Cooking } from '../interfaces'
 import { computed, ref, watch } from 'vue'
 
 const newCookingType = ref<Cooking>({
@@ -79,10 +84,10 @@ const newCookingType = ref<Cooking>({
 const cookingType = ref('')
 const cookingWeight = ref(0)
 const cookingDuration = ref(0)
-const cookingTypeList =   ref<string[]>([])
+const cookingTypeList = ref<string[]>([])
 const cookingList = ref<Cooking[]>([])
 
-const displayCookingDuration = computed<string>(() =>{
+const displayCookingDuration = computed<string>(() => {
     const heure = Math.floor(cookingDuration.value / 60)
     const minutes = Math.floor(cookingDuration.value - (heure * 60))
     return `${heure} h ${minutes} (${Math.floor(cookingDuration.value)} minutes)`
@@ -163,7 +168,7 @@ const resetCookingList = () => {
     initializeForm()
 }
 
-watch(cookingType, () =>{
+watch(cookingType, () => {
     cookingWeight.value = 0
 })
 
@@ -172,7 +177,7 @@ watch(cookingWeight, () => {
         return cuisson.name === cookingType.value
     })
     if (cuisson) {
-        const poidsCuisson = parseFloat(cookingWeight.value.toString().replace(",","."))
+        const poidsCuisson = parseFloat(cookingWeight.value.toString().replace(",", "."))
         cookingDuration.value = (poidsCuisson * cuisson.duration) / cuisson.weight
     }
 })
