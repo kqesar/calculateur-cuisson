@@ -1,34 +1,26 @@
-# cuisine-calculator
+# calculateur-cuisson
 
 ## Project setup
 ```
-yarn install
+pnpm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+pnpm dev 
+```
+
+### Build and launch in preview mode
+```
+pnpm preview
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
-```
-
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
+pnpm build
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+pnpm lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
