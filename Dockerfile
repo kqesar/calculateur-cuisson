@@ -3,10 +3,10 @@ FROM node:18-alpine as build-stage
 RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
-ADD . /usr/src/app
+ADD nuxt-migration /usr/src/app
 RUN npx pnpm@8 install --silent
 
-RUN npx pnpm@8 --silent build
+RUN npx pnpm@8 --silent generate
 
 # étape de production
 FROM nginx:alpine as production-stage

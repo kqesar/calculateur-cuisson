@@ -6,65 +6,59 @@
                     <h2 class="text-center">Calculateur cuisson</h2>
                 </v-col>
             </v-row>
-            <v-row>
+            <v-row class="mb-3">
                 <v-col>
                     <v-btn @click="resetCookingList()">Remise à zero liste cuisson</v-btn>
                 </v-col>
             </v-row>
-            <v-row class="mb-3">
+            <h4>Paramétrage type de viande</h4>
+            <ClientOnly>
+                <v-row v-for="(cuisson, index) in cookingList" :key="index">
+                    <v-col>
+                        <v-text-field variant="underlined" v-model.trim="cuisson.name"
+                                      label="Type de cuisson"></v-text-field>
+                    </v-col>
+                    <v-col>
+                        <v-text-field variant="underlined" v-model.number="cuisson.weight"
+                                      label="Poids(en kg)"></v-text-field>
+                    </v-col>
+                    <v-col>
+                        <v-text-field variant="underlined" v-model.number="cuisson.duration"
+                                      label="Durée(en minutes)"></v-text-field>
+                    </v-col>
+                    <v-col>
+                        <v-btn @click="updateCooking">Modifier cuisson</v-btn>
+                    </v-col>
+                    <v-col>
+                        <v-btn @click="deleteCooking(index)">Supprimer</v-btn>
+                    </v-col>
+                </v-row>
+            </ClientOnly>
+            <h4 class="mt-3 mb-3">Ajout nouvelle cuisson</h4>
+            <v-row>
                 <v-col>
-                    <h4>Paramétrage type de viande</h4>
-                    <v-row v-for="(cuisson, index) in cookingList" :key="index">
-                        <v-col>
-                            <v-text-field variant="underlined" v-model.trim="cuisson.name"
-                                label="Type de cuisson"></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-text-field variant="underlined" v-model.number="cuisson.weight"
-                                label="Poids(en kg)"></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-text-field variant="underlined" v-model.number="cuisson.duration"
-                                label="Durée(en minutes)"></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-btn @click="updateCooking">Modifier cuisson</v-btn>
-                        </v-col>
-                        <v-col>
-                            <v-btn @click="deleteCooking(index)">Supprimer</v-btn>
-                        </v-col>
-                    </v-row>
-                    <v-row class="mt-3">
-                        <v-col>
-                            <h4>Ajout nouvelle cuisson</h4>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-text-field variant="outlined" v-model="newCookingType.name"
-                                label="Nom nouveau type de cuisson"></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-text-field variant="outlined" v-model="newCookingType.weight"
-                                label="Poids de la nouvelle cuisson(en kg)"></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-text-field variant="outlined" v-model="newCookingType.duration"
-                                label="Durée nouvelle cuisson(en minutes)"></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-btn @click="saveCooking">Enregistrer</v-btn>
-                        </v-col>
-                    </v-row>
+                    <v-text-field variant="underlined" v-model="newCookingType.name"
+                                  label="Nom nouveau type de cuisson"></v-text-field>
+                </v-col>
+                <v-col>
+                    <v-text-field variant="underlined" v-model="newCookingType.weight"
+                                  label="Poids de la nouvelle cuisson(en kg)"></v-text-field>
+                </v-col>
+                <v-col>
+                    <v-text-field variant="underlined" v-model="newCookingType.duration"
+                                  label="Durée nouvelle cuisson(en minutes)"></v-text-field>
+                </v-col>
+                <v-col>
+                    <v-btn @click="saveCooking">Enregistrer</v-btn>
                 </v-col>
             </v-row>
+            <h4 class="mt-3">Calcul de la cuisson</h4>
             <v-row class="mt-3">
                 <v-col>
-                    <h4>Calcul de la cuisson</h4>
                     <v-select variant="underlined" v-model="cookingType" :items="cookingTypeList"
-                        label="Sélectionner type de viande"></v-select>
+                              label="Sélectionner type de viande"></v-select>
                     <v-text-field variant="underlined" v-if="cookingType" v-model="cookingWeight"
-                        label="Poids de la viande"></v-text-field>
+                                  label="Poids de la viande"></v-text-field>
                     <span v-if="cookingType && cookingWeight">{{ displayCookingDuration }}</span>
                 </v-col>
             </v-row>
@@ -181,6 +175,7 @@ watch(cookingWeight, () => {
         cookingDuration.value = (poidsCuisson * cuisson.duration) / cuisson.weight
     }
 })
-
-initializeForm()
+if (process.client) {
+    initializeForm()
+}
 </script>
