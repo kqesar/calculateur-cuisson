@@ -10,11 +10,9 @@
             </div>
         </v-app-bar>
         <v-main>
-            <calculator-view/>
+            <slot />
         </v-main>
     </v-app>
 </template>
-
-<script lang="ts" setup>
-import CalculatorView from './views/CalculatorView.vue'
+<script setup>
 </script>
