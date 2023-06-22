@@ -27,5 +27,9 @@
   },
   "dependencies": {
     "vuetify": "^3.3.5"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
   }
 }
