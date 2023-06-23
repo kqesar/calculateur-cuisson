@@ -10,8 +10,11 @@ export default defineNuxtConfig({
     analyze: true,
   },
   modules: [
-    '@nuxtjs/pwa',
+    '@vite-pwa/nuxt',
   ],
+  pwa: {
+
+  },
   nitro: {
     analyze: {
       gzipSize: true,
