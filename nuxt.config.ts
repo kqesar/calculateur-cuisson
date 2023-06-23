@@ -3,15 +3,21 @@ import vuetify from "vite-plugin-vuetify";
 import {defineNuxtConfig} from "nuxt/config";
 
 export default defineNuxtConfig({
+  $production: undefined,
   css: ['vuetify/lib/styles/main.sass'],
   build: {
     transpile: ['vuetify'],
-    analyze: true
+    analyze: true,
   },
+  modules: [
+    '@nuxtjs/pwa',
+  ],
   nitro: {
     analyze: {
-      gzipSize: true
+      gzipSize: true,
+      sourcemap: false
     },
+
     minify: true,
     sourceMap: false,
     compressPublicAssets: true
@@ -22,5 +28,5 @@ export default defineNuxtConfig({
     },
     plugins: [vuetify()]
   },
-  devtools: {enabled: false},
+  devtools: {enabled: false}
 })
