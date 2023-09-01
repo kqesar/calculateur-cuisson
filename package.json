@@ -12,7 +12,7 @@
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix layouts pages plugins interfaces"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^0.6.6",
+    "@nuxt/devtools": "^0.8.2",
     "@types/node": "^20.3.3",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
