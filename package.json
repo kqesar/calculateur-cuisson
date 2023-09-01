@@ -27,7 +27,7 @@
     "vite-plugin-vuetify": "^1.0.2"
   },
   "dependencies": {
-    "vuetify": "^3.3.6"
+    "vuetify": "^3.3.15"
   },
   "engines": {
     "node": ">=18",
