@@ -17,10 +17,10 @@ jobs:
       - name: Use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '20.x'
       - name: Install dependencies
         run: npx pnpm@8 install
-      - run: npx pnpm@8 generate
+      - run: npx pnpm@8 build
 
   lint:
     name: Check lint of app
@@ -31,7 +31,7 @@ jobs:
       - name: Use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '20.x'
       - name: Install dependencies
         run: npx pnpm@8 install
       - name: lint code
