@@ -75,3 +75,4 @@ jobs:
             sudo docker stop ${{ github.event.repository.name }}
             sudo docker rm ${{ github.event.repository.name }}
             sudo docker run --name ${{ github.event.repository.name }} -p ${{ secrets.APP_PORT_DOCKER }}:80 -d ${{ env.REGISTRY }}/${{ github.repository }}
+            sudo docker run --name ${{ github.event.repository.name }} -p ${{ secrets.APP_PORT_DOCKER_REACT }}:80 -d ${{ env.REGISTRY }}/${{ github.repository }}

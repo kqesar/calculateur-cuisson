@@ -1,31 +1,20 @@
 {
-  "name": "cuisine-calculator",
-  "version": "1.22.16",
-  "private": true,
-  "license": "MIT",
+  "name": "calculateur-cuisson",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "vite --cors",
-    "preview": "vite build && vite preview",
-    "build": "vite build",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "preview": "turbo run preview",
+    "lint": "turbo run lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.7.3",
-    "@typescript-eslint/parser": "^6.7.3",
-    "@vue/eslint-config-typescript": "^12.0.0",
-    "eslint": "^8.50.0",
-    "eslint-plugin-vue": "^9.17.0",
-    "sass": "^1.68.0",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-vuetify": "^1.0.2"
-  },
-  "dependencies": {
-    "@vitejs/plugin-vue": "^4.3.4",
-    "pinia": "^2.1.6",
-    "vue": "^3.3.4",
-    "vuetify": "^3.3.19"
+    "turbo": "^1.10.14"
   },
   "engines": {
     "node": ">=18",

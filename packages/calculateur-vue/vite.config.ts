@@ -8,9 +8,13 @@ import viteCompression from 'vite-plugin-compression'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue(), vuetify(), viteCompression({
-        algorithm: 'brotliCompress'
-    })],
+    plugins: [
+        vue(),
+        vuetify(),
+        viteCompression({
+            algorithm: 'brotliCompress'
+        })
+    ],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
