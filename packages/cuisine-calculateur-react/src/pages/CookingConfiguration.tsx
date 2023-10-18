@@ -18,33 +18,33 @@ export const CookingConfiguration = (props: { cuisson: ICooking; index: number; 
   };
 
   return <HStack px={"2rem"} mb={"0.5rem"}>
-    <Text width={'45%'}>Type de cuisson: </Text>
-    <Input value={cuisson.name} onChange={(event) => {
+    <Text fontSize="sm" width={'60%'} as={"label"}>Type de cuisson: </Text>
+    <Input size="sm" w="80%" placeholder="type de cuisson" value={cuisson.name} onChange={(event) => {
       const newCuisson: ICooking = {
         ...cuisson,
         name: event.target.value
       };
       setCuisson(newCuisson);
     }} />
-    <Text width={'50%'} ml={'2rem'}>Poids (en kg): </Text>
-    <Input value={cuisson.weight} onChange={(event) => {
+    <Text fontSize="sm" as={"label"} width={'50%'} ml={'2rem'}>Poids (en kg): </Text>
+    <Input size="sm" w="40%" placeholder="Poids (en kg)" value={cuisson.weight || ''} onChange={(event) => {
       const newCuisson: ICooking = {
         ...cuisson,
         weight: parseInt(event.target.value)
       };
       setCuisson(newCuisson);
     }} />
-    <Text width={'50%'} ml={'2rem'}>Durée (en minutes): </Text>
-    <Input value={cuisson.duration} onChange={(event) => {
+    <Text fontSize="sm" as={"label"} width={'50%'} ml={'2rem'}>Durée (en minutes): </Text>
+    <Input size="sm" w="50%" placeholder="Durée (en minutes)" value={cuisson.duration || ''} onChange={(event) => {
       const newCuisson: ICooking = {
         ...cuisson,
         duration: parseInt(event.target.value)
       };
       setCuisson(newCuisson);
     }} />
-    <Button colorScheme='green' width={'30%'} px={'3rem'} onClick={updateCookingConfiguration}>Modifier
+    <Button colorScheme='green' size="sm" width={'40%'} px={'2rem'} onClick={updateCookingConfiguration}>Modifier
       cuisson</Button>
-    <Button colorScheme='red' width={'30%'} onClick={deleteCookingConfiguration}>Supprimer</Button>
-  </HStack>;
+    <Button colorScheme='red' size="sm" width={'40%'} onClick={deleteCookingConfiguration}>Supprimer</Button>
+  </HStack >;
 }
 

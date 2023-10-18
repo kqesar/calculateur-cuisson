@@ -2,7 +2,7 @@ import './App.css'
 import { Grid, GridItem, Heading } from "@chakra-ui/react";
 import { CalculatorView } from "./pages/CalculatorView.tsx";
 
-function App() {
+export const App = () => {
 
   return (
     <>

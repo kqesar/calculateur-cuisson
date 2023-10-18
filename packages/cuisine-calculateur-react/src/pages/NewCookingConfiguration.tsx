@@ -14,28 +14,28 @@ export const NewCookingConfiguration = () => {
     dispatch(createCookingType(cuisson));
   };
   return <HStack px={"2rem"} mb={"2rem"}>
-    <Text width={"45%"}>Type de cuisson: </Text>
-    <Input value={cuisson.name} onChange={(event) => {
+    <Text as={"label"} fontSize={"sm"} width={"45%"}>Type de cuisson: </Text>
+    <Input value={cuisson.name} size={"sm"} onChange={(event) => {
       setCuisson({
         ...cuisson,
         name: event.target.value
       });
     }} />
-    <Text width={"50%"} ml={"2rem"}>Poids (en kg): </Text>
-    <Input value={cuisson.weight} onChange={(event) => {
+    <Text as={"label"} fontSize={"sm"} width={"50%"} ml={"2rem"}>Poids (en kg): </Text>
+    <Input value={cuisson.weight} size={"sm"} onChange={(event) => {
       setCuisson({
         ...cuisson,
         weight: parseInt(event.target.value)
       });
     }} />
-    <Text width={"50%"} ml={"2rem"}>Durée (en minutes): </Text>
-    <Input value={cuisson.duration} onChange={(event) => {
+    <Text as={"label"} fontSize={"sm"} width={"50%"} ml={"2rem"}>Durée (en minutes): </Text>
+    <Input size="sm" value={cuisson.duration} onChange={(event) => {
       setCuisson({
         ...cuisson,
         duration: parseInt(event.target.value)
       });
     }} />
-    <Button colorScheme="green" width={"30%"} px={"2rem"} onClick={createCookingConfiguration}>Enregistrer</Button>
+    <Button colorScheme="green" size={"sm"} width={"30%"} px={"2rem"} onClick={createCookingConfiguration}>Enregistrer</Button>
   </HStack>;
 }
 

@@ -36,8 +36,8 @@ export const CookingCalculation = () => {
   return (
     <>
       <HStack px={"2rem"}>
-        <Text>Type de viande:</Text>
-        <Select placeholder={'Sélectionner type de viande'} onChange={(event) => {
+        <Text fontSize={"sm"} w={"20%"}>Type de viande:</Text>
+        <Select size={"sm"} placeholder={'Sélectionner type de viande'} onChange={(event) => {
           setCookingType(event.target.value);
         }}>
           {cookingTypeList.map((cookingType, index) => (
@@ -47,8 +47,8 @@ export const CookingCalculation = () => {
       </HStack>
       {(cookingType != "") && (
         <HStack mt={'2rem'} mb={'2rem'} px={"2rem"}>
-          <Text>Poids de la cuisson:</Text>
-          <Input onChange={(event) => {
+          <Text fontSize={"sm"} w={"20%"}>Poids de la cuisson:</Text>
+          <Input size={"sm"} onChange={(event) => {
             setCookingWeight(parseInt(event.target.value));
           }} />
         </HStack>
