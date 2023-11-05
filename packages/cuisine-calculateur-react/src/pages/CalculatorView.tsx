@@ -32,7 +32,7 @@ export const CalculatorView = () => {
       {cookingList.map((cuisson, index) => (
         <CookingConfiguration key={index} cuisson={cuisson} index={index} />
       ))}
-      <Heading size={'md'} px={'2rem'} mb={'2rem'}>Ajout nouvelle cuisson</Heading>
+      <Heading size={'md'} px={'2rem'} mb={'2rem'} mt={'2rem'}>Ajout nouvelle cuisson</Heading>
       <NewCookingConfiguration />
       <Heading size={'md'} px={'2rem'} mb={'2rem'}>Calcul de la cuisson</Heading>
       <CookingCalculation />
