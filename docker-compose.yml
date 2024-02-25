@@ -6,3 +6,8 @@ services:
     build: .
     ports:
       - "25000:80"
+  app2:
+    container_name: 'calculateur_cuisson_name'
+    build: .
+    ports:
+      - "25001:80"
