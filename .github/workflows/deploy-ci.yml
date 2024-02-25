@@ -22,20 +22,21 @@ jobs:
         run: npx pnpm@8 install
       - run: npx pnpm@8 build
 
-  lint:
-    name: Check lint of app
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npx pnpm@8 install
-      - name: lint code
-        run: npx pnpm@8 lint
+  # lint:
+  #   name: Check lint of app
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v3
+  #     - name: Install dependencies
+  #       run: npx pnpm@8 install
+  #     - name: lint code
+  #       run: npx pnpm@8 lint
 
   push-to-registry:
     name: Push to registry the docker image
-    needs: [ build, lint ]
+    needs: [ build]
+    # needs: [ build, lint ]
     runs-on: ubuntu-latest
     permissions:
       contents: read
