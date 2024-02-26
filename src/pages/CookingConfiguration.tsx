@@ -1,21 +1,22 @@
 import { Button, HStack, Input, Text } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
-import { deleteCooking, updateCooking } from "../store/cookingListSlice.ts";
 import { useState } from "react";
 import { ICooking } from "../interfaces";
+import { useCookingList } from "../store/useCookingList.ts";
 
 
 export const CookingConfiguration = (props: { cuisson: ICooking; index: number; }) => {
   const [cuisson, setCuisson] = useState(props.cuisson);
-  const dispatch = useDispatch();
+
+  const { deleteCooking, updateCooking } = useCookingList()
 
   const deleteCookingConfiguration = () => {
-    dispatch(deleteCooking(props.index));
+    deleteCooking(props.index);
   };
 
   const updateCookingConfiguration = () => {
-    dispatch(updateCooking({ cuisson, index: props.index }));
+    updateCooking({ cuisson, index: props.index });
   };
+
 
   return <HStack px={"2rem"} mb={"0.5rem"}>
     <Text fontSize="sm" width={'60%'} as={"label"}>Type de cuisson: </Text>

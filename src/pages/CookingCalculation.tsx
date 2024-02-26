@@ -1,14 +1,12 @@
 import { HStack, Input, Select, Text } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
 import { useEffect, useState } from "react";
 import { ICooking } from "../interfaces";
+import { useCookingList } from "../store/useCookingList";
 
 
 export const CookingCalculation = () => {
 
-  const { cookingList, cookingTypeList } = useSelector((state: RootState) => state.cookingList);
-
+  const { cookingList, cookingTypeList } = useCookingList();
   const [cookingType, setCookingType] = useState('');
   const [cookingWeight, setCookingWeight] = useState(0);
   const [cookingDuration, setCookingDuration] = useState(0);
