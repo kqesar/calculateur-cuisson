@@ -2,7 +2,7 @@ import { Button, Heading, HStack } from "@chakra-ui/react";
 import { CookingCalculation } from "./CookingCalculation.tsx";
 import { NewCookingConfiguration } from "./NewCookingConfiguration.tsx";
 import { CookingConfiguration } from "./CookingConfiguration.tsx";
-import { useCookingList } from "../store/useCookingList.ts";
+import { useCookingList } from "@/store/useCookingList.ts";
 import { useEffect } from "react";
 
 

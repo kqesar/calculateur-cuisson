@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { ICooking } from '../interfaces'
-import { getFromLocalStorage, setDataToLocalStorage } from '../lib/storage'
+import { ICooking } from '@/interfaces'
+import { getFromLocalStorage, setDataToLocalStorage } from '@/lib/storage'
 
 interface ICookingListState {
   cookingList: ICooking[],
