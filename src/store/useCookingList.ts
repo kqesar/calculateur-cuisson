@@ -30,7 +30,7 @@ const defaultCuisson: ICooking[] = [
   }
 ]
 
-const getCookingListFromStorage = (): ICooking[] => {
+const getCookingList = (): ICooking[] => {
   const cuissons = getFromLocalStorage<ICooking[]>("cuissons")
   if (cuissons) {
     return cuissons
@@ -39,12 +39,10 @@ const getCookingListFromStorage = (): ICooking[] => {
   return defaultCuisson
 }
 
-const getCookingTypeListFromStorage = (cookingList: ICooking[]): string[] => {
-  const cookingTypeList: string[] = []
-  cookingList.forEach(cuisson => {
-    cookingTypeList.push(cuisson.name)
+const getCookingTypeList = (cookingList: ICooking[]): string[] => {
+  return cookingList.map(cuisson => {
+    return cuisson.name
   })
-  return cookingTypeList
 }
 
 export const useCookingList = create<ICookingListState>((set) => ({
@@ -54,18 +52,18 @@ export const useCookingList = create<ICookingListState>((set) => ({
     state.cookingList.splice(index)
     setDataToLocalStorage('cuissons', state.cookingList)
     return {
-      cookingList: getCookingListFromStorage(),
-      cookingTypeList: getCookingTypeListFromStorage(state.cookingList)
+      cookingList: getCookingList(),
+      cookingTypeList: getCookingTypeList(state.cookingList)
     }
   }),
   getCookingList: () => set((state) => {
     return {
-      cookingList: getCookingListFromStorage(),
-      cookingTypeList: getCookingTypeListFromStorage(state.cookingList),
+      cookingList: getCookingList(),
+      cookingTypeList: getCookingTypeList(state.cookingList),
     }
   }),
   getCookingTypeList: () => set((state) => ({
-    cookingTypeList: getCookingTypeListFromStorage(state.cookingList)
+    cookingTypeList: getCookingTypeList(state.cookingList)
   })),
   createCookingType: (cooking: ICooking) => set((state) => {
     state.cookingList.push(cooking)
@@ -80,13 +78,13 @@ export const useCookingList = create<ICookingListState>((set) => ({
     state.cookingList[index] = cuisson
     setDataToLocalStorage('cuissons', state.cookingList)
     return {
-      cookingList: getCookingListFromStorage(),
-      cookingTypeList: getCookingTypeListFromStorage(state.cookingList)
+      cookingList: getCookingList(),
+      cookingTypeList: getCookingTypeList(state.cookingList)
     }
   }),
   resetCookingList: () => set((state) => {
     setDataToLocalStorage('cuissons', defaultCuisson)
-    state.cookingList = getCookingListFromStorage()
+    state.cookingList = getCookingList()
     return {
       cookingList: state.cookingList
     }
