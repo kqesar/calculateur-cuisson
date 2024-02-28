@@ -1,7 +1,8 @@
 import { HStack, Input, Select, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ICooking } from "../interfaces";
 import { useCookingList } from "../store/useCookingList";
+import { getTextCookingDuration } from "@/lib/duration";
 
 
 export const CookingCalculation = () => {
@@ -10,7 +11,6 @@ export const CookingCalculation = () => {
   const [cookingType, setCookingType] = useState('');
   const [cookingWeight, setCookingWeight] = useState(0);
   const [cookingDuration, setCookingDuration] = useState(0);
-  const [displayCookingDuration, setDisplayCookingDuration] = useState('');
 
   useEffect(() => {
     const cuisson = cookingList.find((cuisson: ICooking) => {
@@ -23,13 +23,10 @@ export const CookingCalculation = () => {
       });
     }
   }, [cookingWeight, cookingList, cookingType]);
-  useEffect(() => {
-    const heure = Math.floor(cookingDuration / 60);
-    const minutes = Math.floor(cookingDuration - (heure * 60));
-    setDisplayCookingDuration(() => {
-      return (isNaN(cookingDuration)) ? '' : `${heure} h ${minutes} (${Math.floor(cookingDuration)} minutes)`;
-    });
-  }, [cookingDuration]);
+
+  const displayCookingDuration = useMemo(() => {
+    return getTextCookingDuration(cookingDuration)
+  }, [cookingDuration])
 
   return (
     <>

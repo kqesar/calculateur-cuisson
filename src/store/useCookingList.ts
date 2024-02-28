@@ -40,9 +40,10 @@ const getCookingList = (): ICooking[] => {
 }
 
 const getCookingTypeList = (cookingList: ICooking[]): string[] => {
-  return cookingList.map(cuisson => {
-    return cuisson.name
-  })
+  return cookingList.reduce((all: string[], cuisson) => {
+    return [...all, cuisson.name]
+  }, [])
+
 }
 
 export const useCookingList = create<ICookingListState>((set) => ({
