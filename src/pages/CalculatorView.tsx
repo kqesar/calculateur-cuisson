@@ -10,6 +10,7 @@ export const CalculatorView = () => {
   const state = useCookingList();
   useEffect(() => {
     state.getCookingList()
+    state.getCookingTypeList()
   }, [])
 
   return (
