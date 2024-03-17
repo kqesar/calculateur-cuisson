@@ -1,5 +1,5 @@
 import { Button, HStack, Input, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ICooking } from "../interfaces";
 import { useCookingList } from "../store/useCookingList.ts";
 
@@ -8,6 +8,9 @@ export const CookingConfiguration = (props: { cuisson: ICooking; index: number; 
   const [cuisson, setCuisson] = useState(props.cuisson);
 
   const { deleteCooking, updateCooking } = useCookingList()
+  useEffect(() => {
+    setCuisson(props.cuisson)
+  }, [props])
 
   const deleteCookingConfiguration = () => {
     deleteCooking(props.index);
