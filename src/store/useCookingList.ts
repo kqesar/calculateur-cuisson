@@ -10,7 +10,6 @@ interface ICookingListState {
   getCookingTypeList: () => void,
   createCookingType: (cooking: ICooking) => void,
   updateCooking: ({ cuisson, index }: { cuisson: ICooking, index: number }) => void,
-  resetCookingList: () => void
 }
 
 const defaultCuisson: ICooking[] = [
@@ -82,12 +81,5 @@ export const useCookingList = create<ICookingListState>((set) => ({
       cookingList: getCookingList(),
       cookingTypeList: getCookingTypeList(state.cookingList)
     }
-  }),
-  resetCookingList: () => set((state) => {
-    setDataToLocalStorage('cuissons', defaultCuisson)
-    state.cookingList = getCookingList()
-    return {
-      cookingList: state.cookingList
-    }
-  }),
+  })
 }))

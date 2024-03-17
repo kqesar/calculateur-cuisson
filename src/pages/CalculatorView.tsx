@@ -1,4 +1,4 @@
-import { Button, Heading, HStack } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import { CookingCalculation } from "./CookingCalculation.tsx";
 import { NewCookingConfiguration } from "./NewCookingConfiguration.tsx";
 import { CookingConfiguration } from "./CookingConfiguration.tsx";
@@ -16,10 +16,6 @@ export const CalculatorView = () => {
   return (
     <>
       <Heading size='md' textAlign={'center'} mt={'2rem'}>Calculateur cuisson</Heading>
-      <HStack px={'2rem'} mb={'3rem'}>
-        <Button colorScheme={"orange"} onClick={() => state.resetCookingList()}>Remise a zero
-          cuisson</Button>
-      </HStack>
       <Heading size={'md'} px={'2rem'} mb={'2rem'}>Paramétrage type de viande</Heading>
       {state.cookingList.map((cuisson, index) => (
         <CookingConfiguration key={index} cuisson={cuisson} index={index} />
