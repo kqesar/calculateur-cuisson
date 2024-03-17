@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { ICooking } from '@/interfaces'
 import { getFromLocalStorage, setDataToLocalStorage } from '@/lib/storage'
+import { devtools } from 'zustand/middleware'
 
 interface ICookingListState {
   cookingList: ICooking[],
@@ -12,30 +13,13 @@ interface ICookingListState {
   updateCooking: ({ cuisson, index }: { cuisson: ICooking, index: number }) => void,
 }
 
-const defaultCuisson: ICooking[] = [
-  {
-    // Duration in minutes
-    duration: 50,
-    // Weight in kilo
-    weight: 1,
-    name: 'Poulet'
-  },
-  {
-    // Duration in minutes
-    duration: 60,
-    // Weight in kilo
-    weight: 1,
-    name: 'Porc'
-  }
-]
-
 const getCookingList = (): ICooking[] => {
   const cuissons = getFromLocalStorage<ICooking[]>("cuissons")
   if (cuissons) {
     return cuissons
   }
-  setDataToLocalStorage("cuissons", defaultCuisson)
-  return defaultCuisson
+  setDataToLocalStorage("cuissons", [])
+  return []
 }
 
 const getCookingTypeList = (cookingList: ICooking[]): string[] => {
@@ -45,17 +29,20 @@ const getCookingTypeList = (cookingList: ICooking[]): string[] => {
 
 }
 
-export const useCookingList = create<ICookingListState>((set) => ({
+export const useCookingList = create<ICookingListState>()(devtools((set, get) => ({
   cookingList: [],
   cookingTypeList: [],
-  deleteCooking: (index: number) => set((state) => {
-    state.cookingList.splice(index)
-    setDataToLocalStorage('cuissons', state.cookingList)
-    return {
-      cookingList: getCookingList(),
-      cookingTypeList: getCookingTypeList(state.cookingList)
-    }
-  }),
+  deleteCooking: (index: number) => {
+    get().cookingList.splice(index, 1)
+    setDataToLocalStorage('cuissons', get().cookingList)
+    set(() => {
+      return {
+        cookingList: [...get().cookingList],
+      }
+    })
+    get().getCookingList()
+    get().getCookingTypeList()
+  },
   getCookingList: () => set((state) => {
     return {
       cookingList: getCookingList(),
@@ -65,15 +52,15 @@ export const useCookingList = create<ICookingListState>((set) => ({
   getCookingTypeList: () => set((state) => ({
     cookingTypeList: getCookingTypeList(state.cookingList)
   })),
-  createCookingType: (cooking: ICooking) => set((state) => {
-    state.cookingList.push(cooking)
-    state.cookingTypeList.push(cooking.name)
-    setDataToLocalStorage('cuissons', state.cookingList)
-    return {
-      cookingList: state.cookingList,
-      cookingTypeList: state.cookingTypeList
-    }
-  }),
+  createCookingType: (cooking: ICooking) => {
+    set(() => {
+      return {
+        cookingList: [...get().cookingList, cooking],
+      }
+    })
+    get().getCookingTypeList()
+    setDataToLocalStorage('cuissons', get().cookingList)
+  },
   updateCooking: ({ cuisson, index }: { cuisson: ICooking, index: number }) => set((state) => {
     state.cookingList[index] = cuisson
     setDataToLocalStorage('cuissons', state.cookingList)
@@ -82,4 +69,4 @@ export const useCookingList = create<ICookingListState>((set) => ({
       cookingTypeList: getCookingTypeList(state.cookingList)
     }
   })
-}))
+})))
