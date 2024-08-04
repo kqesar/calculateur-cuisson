@@ -8,6 +8,10 @@ export const NewCookingConfiguration = () => {
   const [cuisson, setCuisson] = useState<ICooking>({
     name: '', weight: 0, duration: 0
   });
+  const [formState,setFormState] = useState({
+    weight: '',
+    duration: ''
+  });
   const { createCookingType } = useCookingList()
   const createCookingConfiguration = () => {
     createCookingType(cuisson);
@@ -21,17 +25,31 @@ export const NewCookingConfiguration = () => {
       });
     }} />
     <Text as={"label"} fontSize={"sm"} width={"50%"} ml={"2rem"} htmlFor="new-weight">Poids (kg): </Text>
-    <Input value={cuisson.weight} size={"sm"} id="new-weight" onChange={(event) => {
-      setCuisson({
-        ...cuisson,
-        weight: parseInt(event.target.value)
+    <Input value={formState.weight} size={"sm"} id="new-weight" onChange={(event) => {
+      const value = event.target.value;
+      if(value) {
+        setCuisson({
+          ...cuisson,
+          weight: parseInt(value, 10)
+        });
+      }
+      setFormState({
+        ...formState,
+        weight: value
       });
     }} />
     <Text as={"label"} fontSize={"sm"} width={"50%"} ml={"2rem"} htmlFor="new-duration">Durée (minutes): </Text>
-    <Input size="sm" value={cuisson.duration} id="new-duration" onChange={(event) => {
-      setCuisson({
-        ...cuisson,
-        duration: parseInt(event.target.value)
+    <Input size="sm" value={formState.duration} id="new-duration" onChange={(event) => {
+      const value = event.target.value;
+      if(value) {
+        setCuisson({
+          ...cuisson,
+          duration: parseInt(value, 10)
+        });
+      }
+      setFormState({
+        ...formState,
+        duration: value
       });
     }} />
     <Button colorScheme="green" size={"sm"} width={"30%"} px={"2rem"} onClick={createCookingConfiguration}>Ajouter</Button>
