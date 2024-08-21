@@ -1,17 +1,19 @@
 import {Button, Heading, HStack, Table, TableContainer, Tbody, Th, Thead, Tr} from "@chakra-ui/react";
 import {CookingCalculation} from "./CookingCalculation.tsx";
-import {useCookingList} from "@/store/useCookingList.ts";
 import {useEffect, useState} from "react";
 import {InformationRow} from "@/components/InformationRow.tsx";
 import {TableRowCreationCooking} from "@/components/TableRowCreationCooking.tsx";
+import {getCookingList, getCookingTypeList} from "@/store/useCookingList.ts";
+import {ICooking} from "@/interfaces";
 
 
 export const CalculatorView = () => {
-  const {cookingList, getCookingTypeList, getCookingList} = useCookingList();
   const [createMode, setCreateMode] = useState(false);
+  const [cookingList, setCookingList] = useState<ICooking[]>(getCookingList());
+  const [cookingTypeList, setCookingTypeList] = useState<string[]>(getCookingTypeList());
   useEffect(() => {
-    getCookingList();
-    getCookingTypeList();
+    setCookingList(getCookingList())
+    setCookingTypeList(getCookingTypeList());
   }, []);
   return (
     <>
@@ -42,9 +44,17 @@ export const CalculatorView = () => {
               cookingList.map((cuisson, index) => (
                 <InformationRow cuisson={cuisson}
                   index={index}
+                  onUpdate={()=> {
+                    setCookingList(getCookingList())
+                  }}
                   key={index}/>
               ))}
-            {createMode && <TableRowCreationCooking onAction={() => setCreateMode(false)}/>}
+            {createMode && <TableRowCreationCooking onCancel={() => setCreateMode(false)}
+              onAction={(cuisson: ICooking) => {
+                setCreateMode(false)
+                cookingList.push(cuisson)
+                setCookingTypeList(getCookingTypeList())
+              }}/>}
           </Tbody>
         </Table>
       </TableContainer>
@@ -59,7 +69,8 @@ export const CalculatorView = () => {
         px="2rem"
         mt="2rem"
         mb="2rem">Calcul de la cuisson</Heading>
-      <CookingCalculation />
+      <CookingCalculation cookingList={cookingList}
+        cookingTypeList={cookingTypeList}/>
     </>
   )
 }

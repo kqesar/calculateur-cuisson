@@ -1,13 +1,13 @@
-import { HStack, Input, Select, Text } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
-import { ICooking } from "../interfaces";
-import { useCookingList } from "../store/useCookingList";
-import { getTextCookingDuration } from "@/lib/duration";
+import {HStack, Input, Select, Text} from "@chakra-ui/react";
+import {useEffect, useMemo, useState} from "react";
+import {ICooking} from "@/interfaces";
+import {getTextCookingDuration} from "@/lib/duration";
 
-
-export const CookingCalculation = () => {
-
-  const { cookingList, cookingTypeList } = useCookingList();
+type CookingCalculationProps = {
+  cookingTypeList: string[],
+  cookingList: ICooking[]
+}
+export const CookingCalculation = ({cookingTypeList, cookingList}: CookingCalculationProps) => {
   const [cookingType, setCookingType] = useState('');
   const [cookingWeight, setCookingWeight] = useState(0);
   const [cookingDuration, setCookingDuration] = useState(0);
