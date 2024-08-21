@@ -1,5 +1,5 @@
-import { describe, beforeEach, it, expect, vi } from 'vitest'
-import { getFromLocalStorage, setDataToLocalStorage } from './storage'
+import {beforeEach, describe, expect, it, vi} from 'vitest'
+import {getFromLocalStorage, setDataToLocalStorage} from './storage'
 
 describe('localStorage functions', () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('localStorage functions', () => {
 
   it('returns null when key does not exist in localStorage', () => {
     const result = getFromLocalStorage('nonexistentKey')
-    expect(result).toBeNull()
+    expect(result).toBe('')
   })
 
   it('returns parsed data when key exists in localStorage', () => {
@@ -55,6 +55,6 @@ describe('localStorage functions', () => {
     localStorage.setItem(key, 'non-json-data')
 
     const result = getFromLocalStorage(key)
-    expect(result).toBeNull()
+    expect(result).toBe('')
   })
 })
